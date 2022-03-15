@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductCreateRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -27,14 +28,13 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductCreateRequest $request)
     {
-        $file = $request->file('image');
-        $fileName = time() . '.' . $file->getClientOriginalExtension();
-        $url = Storage::putFileAs('public/products', $file, $fileName);
-        $product = Product::create($request->only(['name', 'description', 'price', 'stock', 'status']) + [
-            'image' => $fileName,
-        ]);
+        // $file = $request->file('image');
+        // $fileName = time() . '.' . $file->getClientOriginalExtension();
+        // $url = Storage::putFileAs('products/images', $file, $fileName);
+
+        $product = Product::create($request->only(['name', 'description', 'image','price','stock', 'status']));
         // $product = Product::create($request->only(['name', 'description', 'image', 'price', 'stock', 'status']));
         return response()->json(new ProductResource($product), Response::HTTP_CREATED);
     }
