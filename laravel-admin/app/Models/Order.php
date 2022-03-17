@@ -62,6 +62,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Order wherePostalCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read mixed $name
+ * @property-read mixed $total_amount
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderItem[] $orderItems
+ * @property-read int|null $order_items_count
+ * @method static \Database\Factories\OrderFactory factory(...$parameters)
  */
 class Order extends Model
 {
@@ -74,5 +79,7 @@ class Order extends Model
             return $item->price * $item->quantity;
         });
     }
-    
+    public function getNameAttribute(){
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }

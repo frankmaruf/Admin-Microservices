@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductCreateRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use Gate;
 use Illuminate\Http\Request;
 use Storage;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +19,7 @@ class ProductController extends Controller
      */
     public function index()
     {
+        Gate::authorize('view', 'users');
         $prducts = Product::paginate();
         return ProductResource::collection($prducts);
     }
@@ -30,6 +32,7 @@ class ProductController extends Controller
      */
     public function store(ProductCreateRequest $request)
     {
+        Gate::authorize('edit', 'users');
         // $file = $request->file('image');
         // $fileName = time() . '.' . $file->getClientOriginalExtension();
         // $url = Storage::putFileAs('products/images', $file, $fileName);
@@ -47,6 +50,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
+        Gate::authorize('view', 'users');
         return new ProductResource(Product::findOrFail($id));
     }
 
@@ -59,6 +63,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        Gate::authorize('edit', 'users');
         $product = Product::findOrFail($id);
         $product->update($request->only(['name', 'description', 'image', 'price', 'stock', 'status']));
         return response()->json(new ProductResource($product), Response::HTTP_ACCEPTED);
@@ -72,6 +77,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+        Gate::authorize('edit', 'users');
         Product::findOrFail($id)->delete();
         return response('Deleted Successfully', Response::HTTP_NO_CONTENT);
     }

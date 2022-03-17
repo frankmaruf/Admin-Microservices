@@ -36,6 +36,8 @@ class OrderFactory extends Factory
             'payment_transaction_status' => $this->faker->randomElement(['pending', 'paid', 'failed', 'canceled']),
             'payment_transaction_amount' => $this->faker->randomFloat(2, 0, 100),
             'payment_transaction_currency' => $this->faker->randomElement(['USD', 'EUR', 'GBP']),
+            'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
+
             
         ];
     }

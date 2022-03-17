@@ -40,6 +40,7 @@ use App\Models\Role;
  * @property int $role_id
  * @property-read Role $role
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRoleId($value)
+ * @property-read mixed $name
  */
 class User extends Authenticatable
 {
@@ -70,5 +71,17 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+    public function getNameAttribute()
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
+    public function permissions()
+    {
+        return $this->role->permissions->pluck('name');
+    }
+    public function hasAccess($permission)
+    {
+        return $this->permissions()->contains($permission);
     }
 }
