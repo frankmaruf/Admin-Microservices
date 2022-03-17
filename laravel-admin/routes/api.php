@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
@@ -72,6 +75,26 @@ Route::middleware('auth:api')->group(function (){
         '/users',
         UserController::class
     );
+    Route::post('upload',[
+        ImageController::class,
+        'upload'
+    ]);
+    Route::get('export',[
+        OrderController::class,
+        'export'
+    ]);
+    Route::get('chartByDateAndTime',[
+        DashboardController::class,
+        'chartByDateAndTime'
+    ]);
+    Route::get('chartByOrderID',[
+        DashboardController::class,
+        'chartByOrderID'
+    ]);
+    Route::get('chart',[
+        DashboardController::class,
+        'chart'
+    ]);
     Route::apiResource(
         '/roles',
         RoleController::class
@@ -80,6 +103,13 @@ Route::middleware('auth:api')->group(function (){
         '/products',
         ProductController::class
     );
+    Route::apiResource(
+        '/orders',
+        OrderController::class
+    )->only([
+        'index',
+        'show',
+    ]);
 });
 // Route::group([
 //     'middleware' => ['auth:api'],

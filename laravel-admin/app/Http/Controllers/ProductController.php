@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductCreateRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use Gate;
 use Illuminate\Http\Request;
 use Storage;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +19,7 @@ class ProductController extends Controller
      */
     public function index()
     {
+        Gate::authorize('view', 'users');
         $prducts = Product::paginate();
         return ProductResource::collection($prducts);
     }
@@ -27,14 +30,14 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductCreateRequest $request)
     {
-        $file = $request->file('image');
-        $fileName = time() . '.' . $file->getClientOriginalExtension();
-        $url = Storage::putFileAs('public/products', $file, $fileName);
-        $product = Product::create($request->only(['name', 'description', 'price', 'stock', 'status']) + [
-            'image' => $fileName,
-        ]);
+        Gate::authorize('edit', 'users');
+        // $file = $request->file('image');
+        // $fileName = time() . '.' . $file->getClientOriginalExtension();
+        // $url = Storage::putFileAs('products/images', $file, $fileName);
+
+        $product = Product::create($request->only(['name', 'description', 'image','price','stock', 'status']));
         // $product = Product::create($request->only(['name', 'description', 'image', 'price', 'stock', 'status']));
         return response()->json(new ProductResource($product), Response::HTTP_CREATED);
     }
@@ -47,6 +50,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
+        Gate::authorize('view', 'users');
         return new ProductResource(Product::findOrFail($id));
     }
 
@@ -59,6 +63,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        Gate::authorize('edit', 'users');
         $product = Product::findOrFail($id);
         $product->update($request->only(['name', 'description', 'image', 'price', 'stock', 'status']));
         return response()->json(new ProductResource($product), Response::HTTP_ACCEPTED);
@@ -72,6 +77,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+        Gate::authorize('edit', 'users');
         Product::findOrFail($id)->delete();
         return response('Deleted Successfully', Response::HTTP_NO_CONTENT);
     }

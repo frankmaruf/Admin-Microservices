@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -37,5 +38,14 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+    public function render($request, Throwable $e)
+    {
+        return response([
+            'error' => [
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+            ],
+        ],$e->getCode() ?  Response::HTTP_BAD_REQUEST : Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }
