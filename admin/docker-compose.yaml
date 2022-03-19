@@ -6,10 +6,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - CHOKIDAR_USEPOLLING=true
-<<<<<<< HEAD
-=======
       - WDS_SOCKET_PORT=0
->>>>>>> update_log
     tty: true
     ports:
       - 8080:3000

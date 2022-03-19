@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 frontend/node_modules
 frontend/build
-=======
->>>>>>> update_log
 .dockerignore
 Dockerfile
