@@ -7,7 +7,11 @@ definer_user=mysql.sys
 definer_host=localhost
 suid=0
 with_check_option=0
+<<<<<<< HEAD
 timestamp=2022-03-19 07:32:20
+=======
+timestamp=2022-03-19 09:39:19
+>>>>>>> update_log
 create-version=1
 source=SELECT IF(host IS NULL, \'background\', host) AS host, event_name, count_star AS total, sum_timer_wait AS total_latency,  avg_timer_wait AS avg_latency  FROM performance_schema.events_stages_summary_by_host_by_event_name WHERE sum_timer_wait != 0 ORDER BY IF(host IS NULL, \'background\', host), sum_timer_wait DESC
 client_cs_name=utf8

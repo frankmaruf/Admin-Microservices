@@ -7,7 +7,11 @@ definer_user=mysql.sys
 definer_host=localhost
 suid=0
 with_check_option=0
+<<<<<<< HEAD
 timestamp=2022-03-19 07:32:20
+=======
+timestamp=2022-03-19 09:39:19
+>>>>>>> update_log
 create-version=1
 source=SELECT * FROM sys.x$processlist WHERE conn_id IS NOT NULL AND command != \'Daemon\'
 client_cs_name=utf8

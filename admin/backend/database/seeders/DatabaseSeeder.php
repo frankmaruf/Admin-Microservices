@@ -14,10 +14,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            // first seed Role then wait for RoleSeeder to finish
             RoleSeeder::class,
             UserSeeder::class,
             ProductSeeder::class,
+            OrderSeeder::class,
         ]);
     }
 }

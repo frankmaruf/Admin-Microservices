@@ -7,7 +7,11 @@ definer_user=mysql.sys
 definer_host=localhost
 suid=0
 with_check_option=0
+<<<<<<< HEAD
 timestamp=2022-03-19 07:32:19
+=======
+timestamp=2022-03-19 09:39:18
+>>>>>>> update_log
 create-version=1
 source=SELECT \'1.5.1\' AS sys_version,  version() AS mysql_version
 client_cs_name=utf8

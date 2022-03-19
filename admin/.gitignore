@@ -1,5 +1,6 @@
 /.idea
 /.vscode
+<<<<<<< HEAD
 .dbdata
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
@@ -24,3 +25,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+=======
+.dbdata
+>>>>>>> update_log
