@@ -1,0 +1,3 @@
+[submodule "admin/admin/react-admin"]
+	path = admin/admin/react-admin
+	url = https://github.com/frankmaruf/react-admin.git
