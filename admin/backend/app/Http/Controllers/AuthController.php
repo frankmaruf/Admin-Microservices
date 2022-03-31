@@ -22,7 +22,7 @@ class AuthController extends Controller
         }
         $user = Auth::user();
         $token = $user->createToken('admin',)->accessToken;
-        return response()->json(['token' => $token], 401)->withCookie('atkn', $token, 60);
+        return response()->json(['token' => $token], Response::HTTP_ACCEPTED)->withCookie('atkn', $token, 60);
     }
     public function register(RegisterRequest $request)
     {

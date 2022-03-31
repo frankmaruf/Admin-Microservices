@@ -16,7 +16,7 @@ class ChartResource extends JsonResource
     {
         return [
             'date' => $this->date,
-            'sum' => (float) $this->count,
+            'sum' => (float) $this->sum,
         ];
     }
 }

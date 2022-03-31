@@ -21,6 +21,12 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('/clear-cache', function() {
+    Artisan::call('cache:clear');
+    Artisan::call('config:cache');
+    return response()->json(['status' => 'success']);
+});
+
 
 // Route::get('/users',[
 //     UserController::class,

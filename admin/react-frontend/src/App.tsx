@@ -13,6 +13,8 @@ import RoleCreate from './secure/roles/RoleCreate';
 import RoleEdit from './secure/roles/RoleEdit';
 import Products from './secure/products/Products';
 import ProductCreate from './secure/products/ProductCreate';
+import ProductEdit from './secure/products/ProductEdit';
+import Profile from './secure/profile/Profile';
 function App() {
   return (
     <React.Fragment>
@@ -21,6 +23,7 @@ function App() {
       <Router>
       <Route path={"/"} component={RedirectToDashboard} exact/>
           <Route path={"/dashboard"} component={Dashboard} exact/>
+          <Route path={'/profile'} component={Profile} exact/>
           <Route path={"/login"} component={Login}/>
           <Route path={"/register"} component={Register}/>
           <Route path={"/users"} exact component={Users}/>
@@ -30,6 +33,7 @@ function App() {
           <Route path={"/roles/create"} exact component={RoleCreate}/>
           <Route path={"/roles/:id/edit"} exact component={RoleEdit}/>
           <Route path={"/products"} exact component={Products}/>
+          <Route path={'/products/:id/edit'} component={ProductEdit}/>
           <Route path={"/products/create"} component={ProductCreate}/>
       </Router>
 </div>
