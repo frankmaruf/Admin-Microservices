@@ -1,5 +1,16 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ImageController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Checkout\CheckoutLinkController;
+use App\Http\Controllers\Influencer\InfluencerLinkController;
+use App\Http\Controllers\Influencer\InfluencerProductController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +25,162 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/index', function () {
-    return response()->json(['message' => 'Welcome to the Influencer API.']);
+Route::get('/clear-cache', function () {
+    Artisan::call('cache:clear');
+    Artisan::call('config:cache');
+    return response()->json(['status' => 'success']);
 });
+
+
+// Route::get('/users',[
+//     UserController::class,
+//     'users'
+// ]);
+
+// Route::get('/users/{id}',[
+//     UserController::class,
+//     'show'
+// ]);
+
+// Route::post('/users',[
+//     UserController::class,
+//     'store'
+// ]);
+
+// Route::put('/users/{id}',[
+//     UserController::class,
+//     'update'
+// ]);
+// Route::delete('/users/{id}',[
+//     UserController::class,
+//     'destroy'
+// ]);
+
+
+// influencer Routes
+
+Route::group([
+    'prefix' => 'influencer',
+], (function () {
+    Route::get("/products", [
+        InfluencerProductController::class,
+        'index'
+    ]);
+    Route::group([
+        'middleware' => ['auth:api','scope:influencer']
+    ],function(){
+        Route::post('/links', [
+            InfluencerLinkController::class,
+            'store'
+        ]);
+    });
+}));
+
+
+
+// Checkout Routes
+Route::group([
+    'prefix' => 'checkout',
+], (function () {
+    Route::get("/links/{link}", [
+        CheckoutLinkController::class,
+        'show'
+    ]);
+}));
+
+
+
+
+// Common Routes
+Route::post('/login', [
+    AuthController::class,
+    'login'
+]);
+Route::post('/register', [
+    AuthController::class,
+    'register'
+]);
+Route::group([
+    'middleware' => 'auth:api',
+], (function () {
+    Route::get('/user', [
+        AuthController::class,
+        'user'
+    ]);
+    Route::put('/user/info', [
+        AuthController::class,
+        'updateInfo'
+    ]);
+    Route::put('/user/password', [
+        AuthController::class,
+        'updatePassword'
+    ]);
+    Route::post('/logout', [
+        AuthController::class,
+        'logout'
+    ]);
+}));
+
+
+
+
+// Admin Routes
+
+Route::group([
+    'middleware' => ['auth:api','scope:admin'],
+    'prefix' => 'admin',
+], (function () {
+    Route::apiResource(
+        '/users',
+        UserController::class
+    );
+    Route::post('upload/{product_id}', [
+        ImageController::class,
+        'upload'
+    ]);
+    Route::post('delete/{product_id}', [
+        ImageController::class,
+        'delete'
+    ]);
+    Route::get('export', [
+        OrderController::class,
+        'export'
+    ]);
+    Route::get('chartByDateAndTime', [
+        DashboardController::class,
+        'chartByDateAndTime'
+    ]);
+    Route::get('chartByOrderID', [
+        DashboardController::class,
+        'chartByOrderID'
+    ]);
+    Route::get('chart', [
+        DashboardController::class,
+        'chart'
+    ]);
+    Route::apiResource(
+        '/roles',
+        RoleController::class
+    );
+    Route::apiResource(
+        '/products',
+        ProductController::class
+    );
+    Route::apiResource(
+        '/orders',
+        OrderController::class
+    )->only([
+        'index',
+        'show',
+    ]);
+}));
+// Route::group([
+//     'middleware' => ['auth:api'],
+//     // 'middleware' => 'api',
+//     // 'prefix' => 'auth'
+// ], function () {
+//     Route::apiResource(
+//         '/users',
+//         UserController::class
+//     );
+// });

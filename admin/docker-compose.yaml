@@ -18,25 +18,25 @@ services:
       # - "/react-frontend/node_modules"
     depends_on:
       - backend
-  backend:
-    networks:
-      - app
-    container_name: admin_api
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    tty: true
-    environment:
-      DB_HOST: db
-      DB_DATABASE: admin
-      DB_USERNAME: root
-      DB_PASSWORD: root
-    ports:
-      - 8000:8000
-    volumes:
-      - ./backend:/app/backend
-    depends_on:
-      - db
+  # backend:
+  #   networks:
+  #     - app
+  #   container_name: admin_api
+  #   build:
+  #     context: ./backend
+  #     dockerfile: Dockerfile
+  #   tty: true
+  #   environment:
+  #     DB_HOST: db
+  #     DB_DATABASE: admin
+  #     DB_USERNAME: root
+  #     DB_PASSWORD: root
+  #   ports:
+  #     - 8000:8000
+  #   volumes:
+  #     - ./backend:/app/backend
+  #   depends_on:
+  #     - db
   influencer:
     networks:
       - app
@@ -46,11 +46,11 @@ services:
       dockerfile: Dockerfile
     tty: true
     environment:
-      DB_HOST: idb
+      DB_HOST: db
       DB_DATABASE: influencer
       DB_USERNAME: root
       DB_PASSWORD: root
-      DB_PORT: 3307
+      DB_PORT: 3306
     ports:
       - 8070:8070
     volumes:
@@ -61,23 +61,6 @@ services:
   db:
     networks:
       - app
-    container_name: admin_db
-    image: mysql:5.7.22
-    restart: unless-stopped
-    tty: true
-    environment:
-      MYSQL_DATABASE: admin
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_ROOT_PASSWORD: root
-    volumes:
-      - .dbdata:/var/lib/mysql
-    ports:
-      - 33066:3306
-  idb:
-    networks:
-      - app
-    container_name: influencer_db
     image: mysql:5.7.22
     restart: unless-stopped
     tty: true
@@ -86,13 +69,10 @@ services:
       MYSQL_USER: root
       MYSQL_PASSWORD: root
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_TCP_PORT: 3307
     volumes:
-      - .idbdata:/var/lib/mysql
+      - .dbdata:/var/lib/mysql
     ports:
-      - 3307:3307
-    expose:
-      - 3307
+      - 33066:3306
 networks:
   app:
     external: true
