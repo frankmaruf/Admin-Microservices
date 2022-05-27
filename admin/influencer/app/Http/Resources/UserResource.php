@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Auth;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
@@ -20,9 +21,13 @@ class UserResource extends JsonResource
             'last_name' => $this->last_name,
             'name' => $this->name,
             'email' => $this->email,
-            $this->mergeWhen($this->isAdmin(), [
+            $this->mergeWhen(Auth::user() && $this->isAdmin(), [
                 'role' => $this->role->name,
                 // 'influencer' => new InfluencerResource($this->influencer),
+            ]),
+            $this->mergeWhen(Auth::user() && $this->isInfluencer(), [
+                'revenue' => $this->revenue,
+                
             ]),
         ];
     }

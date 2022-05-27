@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Checkout;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\LinkResource;
 use App\Models\Links;
 use Illuminate\Http\Request;

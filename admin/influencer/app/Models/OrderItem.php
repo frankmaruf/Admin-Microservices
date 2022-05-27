@@ -31,6 +31,11 @@ use App\Models\Order;
  * @mixin \Eloquent
  * @property-read Order $order
  * @method static \Database\Factories\OrderItemFactory factory(...$parameters)
+ * @property string $influencer_revenue
+ * @property string $admin_revenue
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderItem whereAdminRevenue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderItem whereInfluencerRevenue($value)
+ * @property-read \App\Models\Product|null $product_title
  */
 class OrderItem extends Model
 {
@@ -38,5 +43,10 @@ class OrderItem extends Model
     public function order()
     {
         return $this->belongsTo(Order::class);
+    }
+    // product_title
+    public function product_title()
+    {
+        return $this->belongsTo(Product::class, 'name');
     }
 }

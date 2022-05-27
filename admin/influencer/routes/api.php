@@ -8,8 +8,10 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Checkout\CheckoutLinkController;
+use App\Http\Controllers\Checkout\CheckoutOrderController;
 use App\Http\Controllers\Influencer\InfluencerLinkController;
 use App\Http\Controllers\Influencer\InfluencerProductController;
+use App\Http\Controllers\Influencer\InfluencerStatsController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -66,12 +68,25 @@ Route::group([
         InfluencerProductController::class,
         'index'
     ]);
+    
     Route::group([
         'middleware' => ['auth:api','scope:influencer']
     ],function(){
+        // Route::get("/your_products", [
+        //     InfluencerProductController::class,
+        //     'influencerProducts'
+        // ]);
         Route::post('/links', [
             InfluencerLinkController::class,
             'store'
+        ]);
+        Route::get('/stats', [
+            InfluencerStatsController::class,
+            'index'
+        ]);
+        Route::get('/rankings', [
+            InfluencerStatsController::class,
+            'rankings'
         ]);
     });
 }));
@@ -85,6 +100,18 @@ Route::group([
     Route::get("/links/{link}", [
         CheckoutLinkController::class,
         'show'
+    ]);
+    Route::post('orders', [
+        CheckoutOrderController::class,
+        'store'
+    ]);
+    // Route::post('orders/{order}/complete', [
+    //     CheckoutOrderController::class,
+    //     'complete'
+    // ]);
+    Route::post('orders/confirm', [
+        CheckoutOrderController::class,
+        'confirm'
     ]);
 }));
 
@@ -178,7 +205,7 @@ Route::group([
 //     'middleware' => ['auth:api'],
 //     // 'middleware' => 'api',
 //     // 'prefix' => 'auth'
-// ], function () {
+//  ], function () {
 //     Route::apiResource(
 //         '/users',
 //         UserController::class

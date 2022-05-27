@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\ProductUpdateEvent;
 use App\Http\Requests\ProductCreateRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
@@ -20,8 +21,8 @@ class ProductController
     public function index()
     {
         Gate::authorize('view', 'users');
-        $prducts = Product::paginate();
-        return ProductResource::collection($prducts);
+        $products = Product::paginate();
+        return ProductResource::collection($products);
     }
 
     /**
@@ -39,6 +40,7 @@ class ProductController
 
         $product = Product::create($request->only(['name', 'description', 'image','price','stock', 'status']));
         // $product = Product::create($request->only(['name', 'description', 'image', 'price', 'stock', 'status']));
+        event(new ProductUpdateEvent());
         return response()->json(new ProductResource($product), Response::HTTP_CREATED);
     }
 
@@ -66,6 +68,7 @@ class ProductController
         Gate::authorize('edit', 'users');
         $product = Product::findOrFail($id);
         $product->update($request->only(['name', 'description', 'image', 'price', 'stock', 'status']));
+        event(new ProductUpdateEvent());
         return response()->json(new ProductResource($product), Response::HTTP_ACCEPTED);
     }
 

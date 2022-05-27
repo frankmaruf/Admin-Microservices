@@ -67,6 +67,20 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderItem[] $orderItems
  * @property-read int|null $order_items_count
  * @method static \Database\Factories\OrderFactory factory(...$parameters)
+ * @property string $code
+ * @property int $user_id
+ * @property string $influencer_email
+ * @property int $completed
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereCompleted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereInfluencerEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereInfluencerId($value)
+ * @property int $user_id
+ * @property string $link
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereUserId($value)
+ * @property-read mixed $admin_total
+ * @property-read mixed $influencer_total
  */
 class Order extends Model
 {
@@ -74,9 +88,15 @@ class Order extends Model
     public function orderItems(){
         return $this->hasMany(OrderItem::class);
     }
-    public function getTotalAmountAttribute(){
+    public function getAdminTotalAttribute(){
         return $this->orderItems->sum(function($item){
-            return $item->price * $item->quantity;
+            return $item->admin_revenue;
+        });
+    }
+    public function getInfluencerTotalAttribute(){
+        usleep(30000);
+        return $this->orderItems->sum(function($item){
+            return $item->influencer_revenue;
         });
     }
     public function getNameAttribute(){

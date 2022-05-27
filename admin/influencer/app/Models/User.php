@@ -43,6 +43,8 @@ use App\Models\Role;
  * @property-read mixed $name
  * @property int $is_influencer
  * @method static \Illuminate\Database\Eloquent\Builder|User whereIsInfluencer($value)
+ * @property-read mixed $revenue
+ * @property-read mixed $full_name
  */
 class User extends Authenticatable
 {
@@ -93,5 +95,15 @@ class User extends Authenticatable
     public function isInfluencer() : bool
     {
         return $this->is_influencer === 1;
+    }
+    public function getRevenueAttribute()
+    {
+        $orders = Order::where('user_id', $this->id)->where("completed",1)->get();
+        return $orders->sum(function(Order $order){
+            return $order->influencer_total;
+        });
+    }
+    public function getFullNameAttribute(){
+        return "{$this->first_name} {$this->last_name}";
     }
 }

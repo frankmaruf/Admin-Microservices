@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\AdminAddedEvent;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserPasswordUpdateRequest;
 use App\Http\Requests\UserUpdateRequest;
@@ -45,6 +46,7 @@ class UserController
             'role_id' => $request->input('role_id'),
         ]);
         return response()->json(new UserResource($user), Response::HTTP_CREATED);
+        // event(new AdminAddedEvent($user));
     }
     public function update(UserUpdateRequest $request, $id)
     {

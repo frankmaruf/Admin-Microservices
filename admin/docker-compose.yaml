@@ -12,7 +12,7 @@ services:
       # - WDS_SOCKET_PORT=0
     tty: true
     ports:
-      - 7000:3000
+      - 7070:3000
     volumes:
       - ./react-frontend:/app/frontend
       # - "/react-frontend/node_modules"
@@ -51,12 +51,14 @@ services:
       DB_USERNAME: root
       DB_PASSWORD: root
       DB_PORT: 3306
+      REDIS_HOST: redis
     ports:
       - 8070:8070
     volumes:
       - ./influencer:/app/influencer
     depends_on:
       - idb
+      - redis
   
   db:
     networks:
@@ -73,6 +75,30 @@ services:
       - .dbdata:/var/lib/mysql
     ports:
       - 33066:3306
+  redis:
+    networks:
+      - app
+    image: redis:7.0.0-alpine
+    restart: unless-stopped
+    tty: true
+    # environment:
+      # REDIS_PASSWORD: root
+    ports:
+      - 6379:6379
+# MailHog
+  mailhog_server:
+    image: mailhog/mailhog
+    container_name: cont_mailhog_server
+    #this is optional
+    tty: true
+    ports:
+      - '1025:1025'
+      - '8025:8025'
+    #restart: always
+    restart: on-failure
+
+    networks:
+      - app
 networks:
   app:
     external: true
