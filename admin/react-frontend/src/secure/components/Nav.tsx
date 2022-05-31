@@ -11,7 +11,6 @@ class Nav extends Component<{user: User}> {
 
     handleClick = async () => {
         await axios.post('logout', {});
-
         this.setState({
             redirect: true
         })

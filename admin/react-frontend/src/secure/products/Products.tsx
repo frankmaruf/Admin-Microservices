@@ -62,7 +62,7 @@ class Products extends Component {
                   <tr key={product.id}>
                     <td>{product.id}</td>
                     <td>
-                      <img src={product.image} width="50" />
+                      <img src={product.image} alt={product.name} width="50" />
                     </td>
                     <td>{product.name}</td>
                     <td>{product.description}</td>
