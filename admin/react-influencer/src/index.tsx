@@ -6,10 +6,13 @@ import reportWebVitals from './reportWebVitals';
 import axios from "axios"
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import constants from './constants';
 // import configureStore from './redux/configureStore';
 // import store from './redux/store';
 
-axios.defaults.baseURL = "http://localhost:8070/api/influencer";
+// axios.defaults.baseURL = "http://localhost:8070/api/influencer";
+
+axios.defaults.baseURL = constants.BASE_URL;
 axios.defaults.withCredentials =true
 
 const root = ReactDOM.createRoot(

@@ -35,26 +35,26 @@ class InfluencerStatsController
             // ];
         });
     }
-    public function rankings(){
-        return Redis::zrevrange('rankings',0,-1,'WITHSCORES');
-        
-    }
     // public function rankings(){
-    //     $users = User::where('is_influencer', 1)->get();
-    //     $rankings = $users->map(function(User $user){
-    //         $orders = Order::where('user_id',$user->id)->where("completed",1)->get();
-    //         return [
-    //             'name' => $user->full_name,
-    //             'revenue' => $orders->sum(function (Order $order) {
-    //                 return number_format(
-    //                     $order->influencer_total,
-    //                     2,
-    //                     '.',
-    //                     ''
-    //                 );
-    //             })
-    //         ];
-    //     });
-    //     return $rankings->sortByDesc('revenue')->values();    
+    //     return Redis::zrevrange('rankings',0,-1,'WITHSCORES');
+        
     // }
+    public function rankings(){
+        $users = User::where('is_influencer', 1)->get();
+        $rankings = $users->map(function(User $user){
+            $orders = Order::where('user_id',$user->id)->where("completed",1)->get();
+            return [
+                'name' => $user->full_name,
+                'revenue' => $orders->sum(function (Order $order) {
+                    return number_format(
+                        $order->influencer_total,
+                        2,
+                        '.',
+                        ''
+                    );
+                })
+            ];
+        });
+        return $rankings->sortByDesc('revenue')->values();    
+    }
 }

@@ -5,27 +5,31 @@ import axios from "axios";
 import { RootState } from "../redux/store";
 import { useDispatch } from "react-redux";
 import setUser from "../redux/actions/setUserAction";
+import { User } from "../classes/user";
 const Nav = (props: PropsWithRef<any>) => {
   const dispatch = useDispatch()
    const user = useSelector((state: RootState) => state.user)
-   console.log("from state",user);
   const handleClick = async () => {
     await axios.post('logout', {}).then(res => {
       console.log(res);
       localStorage.clear();
+      dispatch(setUser(new User()))
       // @ts-ignore
       // dispatch(setUser(null))
     })
 }
   let menu;
   // check  user name length
-  if (user.user.name.length > 2) {
+  if (user.user.email.length > 2) {
     console.log("user", user.user);
     
     menu = (
       <>
         <Link className="nav-link" to="/profile">
           {user.user.name}
+        </Link>
+        <Link className="nav-link" to="/rankings">
+          Rankings
         </Link>
         <Link className="nav-link" onClick={handleClick} to="/">
           Logout

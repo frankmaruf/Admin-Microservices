@@ -47,8 +47,10 @@ useEffect(() => {
           dispatch(setUser(res.data.data))
         })
       } catch (e) {
-        // @ts-ignore
-        dispatch(setUser(null))}
+        dispatch(setUser(new User()))
+      // @ts-ignore
+      // dispatch(setUser(null))
+      }
   })();
 }, []);
 
