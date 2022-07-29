@@ -1,1 +1,0 @@
-Order #{{ $order->id }} with {{ $order->payment_transaction_amount }} {{ $order->payment_transaction_currency }} {{ $order->admin_total }} has been confirmed.

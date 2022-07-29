@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Checkout;
 
 use App\Events\OrderCompletedEvent;
+use App\Jobs\OrderCompleted;
 use App\Models\Links;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -29,8 +30,6 @@ class CheckoutOrderController
         $order->link = $links->link;
         $order->user_id = $links->user->id;
         $order->influencer_email = $links->user->email;
-        // required
-        // $order->completed = 0;
         $order->phone = $request->input("phone");
         $order->address = $request->input("address");
         $order->city = $request->input("city");
@@ -50,6 +49,7 @@ class CheckoutOrderController
         $order->payment_transaction_status = $request->input("payment_transaction_status");
         $order->payment_transaction_amount = $request->input("payment_transaction_amount");
         $order->payment_transaction_currency = $request->input("payment_transaction_currency");
+        $order->completed = $request->input("completed");
         $order->save();
         $lineItems = [];
         foreach ($request->input("items") as $item) {
@@ -73,23 +73,41 @@ class CheckoutOrderController
                 "currency" => "USD",
                 "quantity" => $item["quantity"],
             ];
+            // $lineItems[] = [
+            //     "name" => $product->name,
+            //     "description" => $product->description,
+            //     "images" => [
+            //         $product->image
+            //     ],
+            //     "quantity" => $item["quantity"],
+            //     "unit_amount" => [
+            //         "value" => $product->price,
+            //         "currency_code" => "USD",
+            //     ],
+            // ];
         }
-        $stripe = Stripe::make(env('STRIPE_SECRET'));
-        $source = $stripe->sources()->create([
-            'payment_method_types' => 'card',
+        // $stripe = Stripe::make(env('STRIPE_SECRET'));
+        // $stripe = Stripe::make('sk_test_51L0f1aK58sSCMALZGYRkmBHaXUQ1QsJsVyC1CdIY0a4a0G2NVnj5FbSEkRih2mXII0JgVBus45kKDPUCEv2c2uVC00u3az6nzt');
+        // $source = $stripe->sources()->create([
+        //     'payment_method_types' => 'card',
             // 'card' => [
             //     'number' => $request->input("card_number"),
             //     'exp_month' => $request->input("card_exp_month"),
             //     'exp_year' => $request->input("card_exp_year"),
             //     'cvc' => $request->input("card_cvc"),
             // ],
-            "line_items" => $lineItems,
-            "success_url" => env("CHECKOUT_URL") . "/success?source_id={CHECKOUT_SESSION_ID}",
-            "cancel_url" => env("CHECKOUT_URL") . "/error?source_id={CHECKOUT_SESSION_ID}",
-        ]);
-        $order->payment_transaction_id = $source->id;
+        //     "line_items" => $lineItems,
+        //     "success_url" => env("CHECKOUT_URL") . "/success?source_id={CHECKOUT_SESSION_ID}",
+        //     "cancel_url" => env("CHECKOUT_URL") . "/error?source_id={CHECKOUT_SESSION_ID}",
+        // ]);
+        // $order->payment_transaction_id = $source->id;
         $order->save();
         DB::commit();
+        event(new OrderCompletedEvent($order));
+        $data = $order->toArray();
+        $data['admin_total'] = $order->admin_total;
+        $data['influencer_total'] = $order->influencer_total;
+        OrderCompleted::dispatch($data);
         return $order;
     }
     public function confirm(Request $request)
@@ -110,7 +128,6 @@ class CheckoutOrderController
         $order->payment_status = "paid";
         $order->completed = 1;
         $order->save();
-        event(new OrderCompletedEvent($order));
         return response([
             'message' => 'Payment Successful',
         ]);

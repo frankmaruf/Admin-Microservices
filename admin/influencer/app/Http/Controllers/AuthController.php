@@ -32,7 +32,7 @@ class AuthController
                     'message' => 'You are not allowed to access this resource'
                 ],
                 Response::HTTP_FORBIDDEN
-            );
+            ); 
         }
         if($user->isAdmin() && $scopes !== 'admin') {
             return response(

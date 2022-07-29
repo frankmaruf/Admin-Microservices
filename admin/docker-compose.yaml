@@ -18,6 +18,7 @@ services:
       # - "/react-frontend/node_modules"
     depends_on:
       - backend
+      - redis
   # backend:
   #   networks:
   #     - app

@@ -7,6 +7,7 @@ use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserPasswordUpdateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
+use App\Jobs\AdminAdded;
 use App\Models\User;
 use App\Models\UserRole;
 use Auth;
@@ -45,8 +46,9 @@ class UserController
             'user_id' => $user->id,
             'role_id' => $request->input('role_id'),
         ]);
-        return response()->json(new UserResource($user), Response::HTTP_CREATED);
         // event(new AdminAddedEvent($user));
+        AdminAdded::dispatch($user->email);
+        return response()->json(new UserResource($user), Response::HTTP_CREATED);
     }
     public function update(UserUpdateRequest $request, $id)
     {
@@ -56,6 +58,7 @@ class UserController
         UserRole::where('user_id', $user->id)->update([
             'role_id' => $request->input('role_id'),
         ]);
+        AdminAdded::dispatch($user->email);
         return response()->json(new UserResource($user), Response::HTTP_ACCEPTED);
     }
     public function destroy($id)

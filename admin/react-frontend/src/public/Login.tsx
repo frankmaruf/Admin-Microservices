@@ -15,7 +15,7 @@ class Login extends Component {
     const response = await axios.post("login", {
       email: this.email,
       password: this.password,
-      scope: "admin",
+      scopes: "admin",
     },
     );
     if (response.data.token) {

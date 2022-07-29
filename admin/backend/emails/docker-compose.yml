@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  queue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: "php artisan queue:work"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_DATABASE: emails
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      DB_PORT: 3306
+      REDIS_HOST: redis
+
+  db:
+    image: mysql:5.7.22
+    restart: unless-stopped
+    tty: true
+    environment:
+      MYSQL_DATABASE: emails
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./storage/dbdata:/var/lib/mysql
+    ports:
+      - 33067:3306
+  mailhog_server:
+    image: mailhog/mailhog
+    container_name: cont_mailhog_server
+    #this is optional
+    tty: true
+    ports:
+      - "1026:1025"
+      - "8026:8025"
+    #restart: always
+    restart: on-failure
