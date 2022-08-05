@@ -19,25 +19,6 @@ services:
     depends_on:
       - backend
       - redis
-  # backend:
-  #   networks:
-  #     - app
-  #   container_name: admin_api
-  #   build:
-  #     context: ./backend
-  #     dockerfile: Dockerfile
-  #   tty: true
-  #   environment:
-  #     DB_HOST: db
-  #     DB_DATABASE: admin
-  #     DB_USERNAME: root
-  #     DB_PASSWORD: root
-  #   ports:
-  #     - 8000:8000
-  #   volumes:
-  #     - ./backend:/app/backend
-  #   depends_on:
-  #     - db
   influencer:
     networks:
       - app
@@ -86,20 +67,6 @@ services:
       # REDIS_PASSWORD: root
     ports:
       - 6379:6379
-# MailHog
-  mailhog_server:
-    image: mailhog/mailhog
-    container_name: cont_mailhog_server
-    #this is optional
-    tty: true
-    ports:
-      - '1025:1025'
-      - '8025:8025'
-    #restart: always
-    restart: on-failure
-
-    networks:
-      - app
 networks:
   app:
     external: true

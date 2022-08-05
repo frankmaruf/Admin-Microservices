@@ -1,1 +1,1 @@
-You earn ${{ $order->influencer_total }} from your order #{{ $order->link }}!
+You earn ${{ $influencer_total }} from your order #{{ $link }}!
