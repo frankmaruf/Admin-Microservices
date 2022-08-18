@@ -16,7 +16,7 @@ const Main = () => {
 });
   React.useEffect(() => {
     (async () => {
-      axios.get(`/products?search=${searchText}`).then((res) => {
+      axios.get(`${constants.BASE_URL}/products?search=${searchText}`).then((res) => {
         setProducts(res.data.data);
       });
     })();

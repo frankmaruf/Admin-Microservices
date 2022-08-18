@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import setUser from '../redux/actions/setUserAction'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../redux/store'
+import constants from '../constants'
 
 
 const Wrapper = (props: PropsWithChildren<any>) => {
@@ -42,7 +43,7 @@ const Wrapper = (props: PropsWithChildren<any>) => {
 useEffect(() => {
   (async () => {
       try {
-        await axios.get('user').then(res => {
+        await axios.get(`${constants.USERS_URL}/user`).then(res => {
           // console.log(res);
           dispatch(setUser(res.data.data))
         })

@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AdminScope;
+use App\Http\Middleware\InfluencerScope;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -63,7 +65,9 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
-        'scope'=> \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
+        'scope.admin' => AdminScope::class,
+        'scope.influencer' => InfluencerScope::class,
+        // 'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
+        // 'scope'=> \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
     ];
 }

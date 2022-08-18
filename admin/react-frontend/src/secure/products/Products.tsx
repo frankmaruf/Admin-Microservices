@@ -5,6 +5,7 @@ import { Product } from "../../classes/product";
 import { Link } from "react-router-dom";
 import Paginator from "../components/Paginator";
 import Deleter from "../components/Deleter";
+import constants from "../../constants";
 
 class Products extends Component {
   state = {
@@ -13,7 +14,7 @@ class Products extends Component {
   page = 1;
   last_page = 0;
   componentDidMount = async () => {
-    const response = await axios.get(`products?page=${this.page}`);
+    const response = await axios.get(`${constants.BASE_URL}/products?page=${this.page}`);
 
     this.setState({
       products: response.data.data,

@@ -2,6 +2,7 @@ import React, { Component, SyntheticEvent } from "react";
 import {Navigate} from 'react-router-dom'
 import "./Public.css";
 import axios from "axios";
+import constants from "../constants";
 class Login extends Component{
   email = "";
   password = "";
@@ -11,7 +12,7 @@ class Login extends Component{
   // "Content-Type": "application/x-www-form-urlencoded",
   submit = async (e: SyntheticEvent) => {
     e.preventDefault();
-    const response = await axios.post("login", {
+    const response = await axios.post(`${constants.USERS_URL}/login`, {
       email: this.email,
       password: this.password,
       scopes: "influencer",

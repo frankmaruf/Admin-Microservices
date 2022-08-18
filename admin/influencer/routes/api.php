@@ -29,41 +29,23 @@ use Illuminate\Support\Facades\Route;
 
 
 
+Route::get('/user', [
+    AuthController::class,
+    'user'
+]);
+
+
 // Admin Routes
 
 Route::prefix('admin')->group(function () {
-    Route::post('/login', [
-        AuthController::class,
-        'login'
-    ]);
-    Route::post('/register', [
-        AuthController::class,
-        'register'
-    ]);
     Route::group([
-        'middleware' => ['auth:api', 'scope:admin'],
+        'middleware' => 'scope.admin',
     ], (function () {
         Route::get('/clear-cache', function () {
             Artisan::call('cache:clear');
             Artisan::call('config:cache');
             return response()->json(['status' => 'success']);
-        });        
-        Route::get('/user', [
-            AuthController::class,
-            'user'
-        ]);
-        Route::put('/user/info', [
-            AuthController::class,
-            'updateInfo'
-        ]);
-        Route::put('/user/password', [
-            AuthController::class,
-            'updatePassword'
-        ]);
-        Route::post('/logout', [
-            AuthController::class,
-            'logout'
-        ]);
+        });
         Route::apiResource(
             '/users',
             UserController::class
@@ -115,38 +97,13 @@ Route::prefix('admin')->group(function () {
 
 
 Route::prefix('influencer')->group(function () {
-    Route::post('/login', [
-        AuthController::class,
-        'login'
-    ]);
-    Route::post('/register', [
-        AuthController::class,
-        'register'
-    ]);
     Route::get("/products", [
         InfluencerProductController::class,
         'index'
     ]);
-    Route::group([], (function () {
         Route::group([
-            'middleware' => ['auth:api', 'scope:influencer']
+            'middleware' => 'scope.influencer'
         ], function () {
-            Route::get('/user', [
-                AuthController::class,
-                'user'
-            ]);
-            Route::put('/user/info', [
-                AuthController::class,
-                'updateInfo'
-            ]);
-            Route::put('/user/password', [
-                AuthController::class,
-                'updatePassword'
-            ]);
-            Route::post('/logout', [
-                AuthController::class,
-                'logout'
-            ]);
             Route::post('/links', [
                 InfluencerLinkController::class,
                 'store'
@@ -159,12 +116,7 @@ Route::prefix('influencer')->group(function () {
                 InfluencerStatsController::class,
                 'rankings'
             ]);
-            // Route::get("/your_products", [
-            //     InfluencerProductController::class,
-            //     'influencerProducts'
-            // ]);
         });
-    }));
 });
 
 

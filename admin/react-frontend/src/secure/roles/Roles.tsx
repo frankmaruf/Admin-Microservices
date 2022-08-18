@@ -4,12 +4,13 @@ import Wrapper from '../Wrapper';
 import { Role } from '../../classes/role';
 import { Link } from 'react-router-dom';
 import Deleter from '../components/Deleter';
+import constants from '../../constants';
 class Roles extends Component {
     state={
         roles: []
     }
     componentDidMount = async() =>{
-        const response = await axios.get("roles");
+        const response = await axios.get(`${constants.BASE_URL}/roles`);
         this.setState({
             roles: response.data.data
         })

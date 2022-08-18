@@ -9,7 +9,7 @@ const Stats = () => {
     useEffect(() => {
         (
             async () => {
-                const response = await axios.get('stats');
+                const response = await axios.get(`${constants.BASE_URL}/stats`);
                 setStats(response.data);
             }
         )();

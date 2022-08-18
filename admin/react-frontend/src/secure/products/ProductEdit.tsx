@@ -4,6 +4,7 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom';
 import ImageUpload from "../components/ImageUpload";
 import {Product} from "../../classes/product";
+import constants from '../../constants';
 
 class ProductEdit extends Component<{ match: any }> {
     state = {
@@ -22,7 +23,7 @@ class ProductEdit extends Component<{ match: any }> {
     componentDidMount = async () => {
         this.id = this.props.match.params.id;
 
-        const response = await axios.get(`products/${this.id}`);
+        const response = await axios.get(`${constants.BASE_URL}/products/${this.id}`);
 
         const product: Product = response.data.data;
 

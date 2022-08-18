@@ -6,11 +6,12 @@ import { RootState } from "../redux/store";
 import { useDispatch } from "react-redux";
 import setUser from "../redux/actions/setUserAction";
 import { User } from "../classes/user";
+import constants from "../constants";
 const Nav = (props: PropsWithRef<any>) => {
   const dispatch = useDispatch()
    const user = useSelector((state: RootState) => state.user)
   const handleClick = async () => {
-    await axios.post('logout', {}).then(res => {
+    await axios.post(`${constants.BASE_URL}/logout`, {}).then(res => {
       console.log(res);
       localStorage.clear();
       dispatch(setUser(new User()))

@@ -11,8 +11,6 @@ import constants from './constants';
 // import store from './redux/store';
 
 // axios.defaults.baseURL = "http://localhost:8070/api/influencer";
-
-axios.defaults.baseURL = constants.BASE_URL;
 axios.defaults.withCredentials =true
 
 const root = ReactDOM.createRoot(

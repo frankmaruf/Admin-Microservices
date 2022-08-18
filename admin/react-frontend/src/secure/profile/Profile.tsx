@@ -4,6 +4,7 @@ import axios from 'axios';
 import {User} from "../../classes/user";
 import {connect} from "react-redux";
 import setUser from "../../redux/actions/setUserAction";
+import constants from '../../constants';
 
 class Profile extends Component<any> {
     state = {
@@ -20,7 +21,7 @@ class Profile extends Component<any> {
     updateInfo = async (e: SyntheticEvent) => {
         e.preventDefault();
 
-        const response = await axios.put('user/info', {
+        const response = await axios.put(`${constants.USERS_URL}/user/info`, {
             first_name: this.first_name,
             last_name: this.last_name,
             email: this.email,

@@ -10,6 +10,7 @@ use App\Http\Resources\UserResource;
 use App\Jobs\AdminAdded;
 use App\Models\User;
 use App\Models\UserRole;
+use App\Services\UserService;
 use Auth;
 use Gate;
 use Illuminate\Http\Request;
@@ -20,21 +21,26 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController
 {
+    private $userService;
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
     public function index()
     {
-        Gate::authorize('view', 'users');
+        $this->userService->allows('view', 'users');
         $users = User::paginate();
         return UserResource::collection($users);
     }
     public function show($id)
     {
-        Gate::authorize('view', 'users');
+        $this->userService->allows('view', 'users');
         $user = User::findOrFail($id);
         return new UserResource($user);
     }
     public function store(UserCreateRequest $request)
     {
-        Gate::authorize('edit', 'users');
+        $this->userService->allows('edit', 'users');
         $email = $request->input('email');
         if (User::where('email', $email)->exists()) {
             return response()->json(['message' => 'User already exists'], Response::HTTP_CONFLICT);
@@ -52,7 +58,7 @@ class UserController
     }
     public function update(UserUpdateRequest $request, $id)
     {
-        Gate::authorize('edit', 'users');
+        $this->userService->allows('edit', 'users');
         $user = User::findOrFail($id);
         $user->update($request->only(['first_name', 'last_name', 'email']));
         UserRole::where('user_id', $user->id)->update([
@@ -63,7 +69,7 @@ class UserController
     }
     public function destroy($id)
     {
-        Gate::authorize('edit', 'users');
+        $this->userService->allows('edit', 'users');
         User::findOrFail($id)->delete();
         return response('Deleted Successfully', Response::HTTP_NO_CONTENT);
     }

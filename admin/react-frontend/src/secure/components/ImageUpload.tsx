@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from "axios";
+import constants from '../../constants';
 
 class ImageUpload extends Component<{ value: string, imageChanged: any }> {
     image = '';
@@ -10,7 +11,7 @@ class ImageUpload extends Component<{ value: string, imageChanged: any }> {
         const data = new FormData();
         data.append('image', files[0]);
 
-        const response = await axios.post('upload', data);
+        const response = await axios.post(`${constants.BASE_URL}/upload`, data);
 
         this.image = response.data.url;
 

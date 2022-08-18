@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import constants from '../constants';
 import Wrapper from './Wrapper'
 
 const Rankings = () => {
@@ -8,7 +9,7 @@ const Rankings = () => {
     useEffect(() => {
         (
             async () => {
-                const response = await axios.get('rankings');
+                const response = await axios.get(`${constants.BASE_URL}/rankings`);
 
                 setRankings(response.data);
             }

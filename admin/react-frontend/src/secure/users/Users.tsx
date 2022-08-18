@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, {Component} from 'react'
 import { Link } from 'react-router-dom';
 import { User } from '../../classes/user';
+import constants from '../../constants';
 import Deleter from '../components/Deleter';
 import Paginator from '../components/Paginator';
 import Wrapper from '../Wrapper'
@@ -14,7 +15,7 @@ class Users extends Component {
     last_page = 0;
 
     componentDidMount = async () => {
-        const response = await axios.get(`users?page=${this.page}`);
+        const response = await axios.get(`${constants.BASE_URL}/users?page=${this.page}`);
 
         this.setState({
             users: response.data.data

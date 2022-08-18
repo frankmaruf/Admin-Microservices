@@ -4,6 +4,7 @@ import axios from "axios"
 import { Permission } from "../../classes/permission";
 import {Redirect} from 'react-router-dom';
 import { Role } from "../../classes/role";
+import constants from "../../constants";
 
 class RoleEdit extends Component<{ match: any }> {
     state = {
@@ -19,7 +20,7 @@ class RoleEdit extends Component<{ match: any }> {
     componentDidMount = async () => {
         this.id = this.props.match.params.id;
 
-        const permissionCall = await axios.get('permissions');
+        const permissionCall = await axios.get(`${constants.BASE_URL}/permissions`);
 
         const roleCall = await axios.get(`roles/${this.id}`);
 

@@ -3,6 +3,7 @@ import {Redirect, Link} from 'react-router-dom';
 import {User} from "../../classes/user";
 import { connect } from 'react-redux';
 import axios from 'axios';
+import constants from '../../constants';
 
 class Nav extends Component<{user: User}> {
     state = {
@@ -10,7 +11,7 @@ class Nav extends Component<{user: User}> {
     }
 
     handleClick = async () => {
-        await axios.post('logout', {});
+        await axios.post(`${constants.USERS_URL}/logout`, {});
         this.setState({
             redirect: true
         })

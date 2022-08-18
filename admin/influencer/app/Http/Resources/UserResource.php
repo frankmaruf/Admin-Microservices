@@ -21,15 +21,14 @@ class UserResource extends JsonResource
             'last_name' => $this->last_name,
             'name' => $this->name,
             'email' => $this->email,
-            'role' => $this->role->name,
             // $this->mergeWhen(Auth::user() && $this->isAdmin(), [
                 // 'role' => $this->role->name,
                 // 'influencer' => new InfluencerResource($this->influencer),
             // ]),
-            $this->mergeWhen(Auth::user() && $this->isInfluencer(), [
-                'revenue' => $this->revenue,
+            // $this->mergeWhen(Auth::user() && $this->isInfluencer(), [
+            //     'revenue' => $this->revenue,
                 
-            ]),
+            // ]),
         ];
     }
 }
