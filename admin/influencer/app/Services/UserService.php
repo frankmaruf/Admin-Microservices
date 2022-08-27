@@ -13,33 +13,55 @@ class UserService
             'Authorization' => request()->headers->get('Authorization'),
         ];
     }
-    public function getUser() : User
+    public function request(){
+        return \Http::withHeaders($this->headers());
+    }
+    public function parseUser($json): User
     {
-        // $headers = $request->headers->all();
-        // get token fro cookie
-        // $token = $request->cookie('atkn');
-        // $headers = [
-        //     'Authorization' => 'Bearer ' . $token,
-        // ];
-        // $response = \Http::withHeaders($headers)->get('http://127.0.0.1:8001/api/user');
-        // windows IP address
-        $json = \Http::withHeaders($this->headers())->get(env('EndPoint').'/user')->json();
         $user = new User();
         $user->id = $json['id'];
         $user->first_name = $json['first_name'];
         $user->last_name = $json['last_name'];
         $user->email = $json['email'];
         // $user->is_admin = $json['is_admin'];
-        $user->is_influencer = $json['is_influencer'];
+        $user->is_influencer = $json['is_influencer'] ?? 0;
         return $user;
     }
+    public function getUser() : User
+    {
+        $json = $this->request()->get(env('EndPoint').'/user')->json();
+        return $this->parseUser($json);
+    }
     public function isAdmin(){
-        return \Http::withHeaders($this->headers())->get(env('EndPoint').'/admin')->successful();
+        return $this->request()->get(env('EndPoint').'/admin')->successful();
     }
     public function isInfluencer(){
-        return \Http::withHeaders($this->headers())->get(env('EndPoint').'/influencer')->successful();
+        return $this->request()->get(env('EndPoint').'/influencer')->successful();
     }
     public function allows($ability,$arguments){
        return \Gate::forUser($this->getUser())->authorize($ability, $arguments);
+    }
+    public function all($page){
+        return $this->request()->get(env('EndPoint').'/users?page='.$page)->json();
+    }
+
+    public function get($id): User
+    {
+        $json = $this->request()->get(env('EndPoint')."/users"."/".$id)->json();
+        return $this->parseUser($json);
+    }
+    public function create($data):User
+    {
+        $json = $this->request()->post(env('EndPoint')."/users",$data)->json();
+        return $this->parseUser($json);
+    }
+    public function update($id,$data):User
+    {
+        $json = $this->request()->put(env('EndPoint')."/users"."/"."$id",$data)->json();
+        return $this->parseUser($json);
+    }
+    public function delete($id)
+    {
+        return $this->request()->delete(env('EndPoint')."/users"."/"."$id")->successful();
     }
 }

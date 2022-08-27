@@ -26,16 +26,15 @@ class UserController
     {
         $this->userService = $userService;
     }
-    public function index()
+    public function index(Request $request)
     {
         $this->userService->allows('view', 'users');
-        $users = User::paginate();
-        return UserResource::collection($users);
+        return $this->userService->all($request->input('page',1));
     }
     public function show($id)
     {
         $this->userService->allows('view', 'users');
-        $user = User::findOrFail($id);
+        $user = $this->userService->get($id);
         return new UserResource($user);
     }
     public function store(UserCreateRequest $request)
@@ -45,32 +44,33 @@ class UserController
         if (User::where('email', $email)->exists()) {
             return response()->json(['message' => 'User already exists'], Response::HTTP_CONFLICT);
         }
-        $user = User::create($request->only(['first_name', 'last_name', 'email']) + [
-            'password' => bcrypt(123456),
-        ]);
+        $data = $request->only(['first_name', 'last_name', 'email']) + [
+            'password' => 123456,
+        ];
+        $user = $this->userService->create($data);
         UserRole::create([
             'user_id' => $user->id,
             'role_id' => $request->input('role_id'),
         ]);
-        // event(new AdminAddedEvent($user));
         AdminAdded::dispatch($user->email);
         return response()->json(new UserResource($user), Response::HTTP_CREATED);
     }
     public function update(UserUpdateRequest $request, $id)
     {
         $this->userService->allows('edit', 'users');
-        $user = User::findOrFail($id);
-        $user->update($request->only(['first_name', 'last_name', 'email']));
+        $userID = User::findOrFail($id);
+        $data = $request->only(['first_name', 'last_name', 'email']);
+        $user = $this->userService->update($userID,$data);
         UserRole::where('user_id', $user->id)->update([
             'role_id' => $request->input('role_id'),
         ]);
-        AdminAdded::dispatch($user->email);
         return response()->json(new UserResource($user), Response::HTTP_ACCEPTED);
     }
     public function destroy($id)
     {
         $this->userService->allows('edit', 'users');
-        User::findOrFail($id)->delete();
+        $user =User::findOrFail($id);
+        $this->userService->delete($user);
         return response('Deleted Successfully', Response::HTTP_NO_CONTENT);
     }
 }
