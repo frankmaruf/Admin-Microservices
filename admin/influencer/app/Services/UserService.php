@@ -17,20 +17,20 @@ class UserService
     {
         return \Http::withHeaders($this->headers());
     }
-    public function parseUser($json): User
-    {
-        $user = new User();
-        $user->id = $json['id'];
-        $user->first_name = $json['first_name'];
-        $user->last_name = $json['last_name'];
-        $user->email = $json['email'];
-        $user->is_influencer = $json['is_influencer'] ?? 0;
-        return $user;
-    }
+    // public function parseUser($json): User
+    // {
+    //     $user = new User();
+    //     $user->id = $json['id'];
+    //     $user->first_name = $json['first_name'];
+    //     $user->last_name = $json['last_name'];
+    //     $user->email = $json['email'];
+    //     $user->is_influencer = $json['is_influencer'] ?? 0;
+    //     return $user;
+    // }
     public function getUser(): User
     {
         $json = $this->request()->get(env('EndPoint') . '/user')->json();
-        return $this->parseUser($json);
+        return new User($json);
     }
     public function isAdmin()
     {
@@ -54,17 +54,17 @@ class UserService
     public function get($id): User
     {
         $json = $this->request()->get(env('EndPoint') . "/users" . "/" . $id)->json();
-        return $this->parseUser($json);
+        return new User($json);
     }
     public function create($data): User
     {
         $json = $this->request()->post(env('EndPoint') . "/users", $data)->json();
-        return $this->parseUser($json);
+        return new User($json);
     }
     public function update($id, $data): User
     {
         $json = $this->request()->put(env('EndPoint') . "/users" . "/" . "$id", $data)->json();
-        return $this->parseUser($json);
+        return new User($json);
     }
     public function delete($id)
     {

@@ -22,13 +22,13 @@ class AuthController
         $resource = new UserResource($user);
         if($user->isInfluencer()){
             $resource->additional([
-                'revenue' => $this->revenue,
+                'revenue' => $user->revenue(),
             ]);
             return $resource;
         }
         return ($resource)->additional([
             'data' => [
-                'role' => $user->role,
+                'role' => $user->role(),
                 'permissions' => $user->permissions(),
             ],
         ]);

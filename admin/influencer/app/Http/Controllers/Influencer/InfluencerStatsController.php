@@ -40,7 +40,7 @@ class InfluencerStatsController
         $rankings = $users->map(function($user){
             $orders = Order::where('user_id',$user->id)->where("completed",1)->get();
             return [
-                'name' => $user->full_name,
+                'name' => $user->fullName(),
                 'revenue' => $orders->sum(function (Order $order) {
                     return number_format(
                         $order->influencer_total,
