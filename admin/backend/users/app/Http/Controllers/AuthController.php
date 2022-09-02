@@ -57,7 +57,7 @@ class AuthController
         }
         $user = User::create($request->only(['first_name', 'last_name', 'email']) + [
             'password' => bcrypt($request->input('password')),
-            "is_influencer" => true,
+            "is_influencer" => 1,
         ]);
         return response()->json($user, Response::HTTP_CREATED);
     }

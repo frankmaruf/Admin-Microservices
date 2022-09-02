@@ -8,13 +8,8 @@ use App\Models\Links;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
-use App\Models\User;
-use Cartalyst\Stripe\Stripe;
 use DB;
 use Illuminate\Http\Request;
-use Illuminate\Mail\Message;
-use Illuminate\Validation\Rule;
-use Mail;
 
 class CheckoutOrderController
 {

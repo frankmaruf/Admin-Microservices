@@ -12,8 +12,6 @@ use App\Http\Controllers\Checkout\CheckoutOrderController;
 use App\Http\Controllers\Influencer\InfluencerLinkController;
 use App\Http\Controllers\Influencer\InfluencerProductController;
 use App\Http\Controllers\Influencer\InfluencerStatsController;
-use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*

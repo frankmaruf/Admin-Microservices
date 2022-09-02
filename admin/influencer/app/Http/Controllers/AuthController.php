@@ -2,16 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RegisterRequest;
-use App\Http\Requests\UserPasswordUpdateRequest;
-use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
-use App\Models\User;
 use App\Services\UserService;
-use Facade\FlareClient\Http\Response as HttpResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Passport\Token;
 use Symfony\Component\HttpFoundation\Response;
 
 

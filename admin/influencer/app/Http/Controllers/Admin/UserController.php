@@ -2,21 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Events\AdminAddedEvent;
 use App\Http\Requests\UserCreateRequest;
-use App\Http\Requests\UserPasswordUpdateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Jobs\AdminAdded;
-use App\Models\User;
 use App\Models\UserRole;
 use App\Services\UserService;
-use Auth;
-use Gate;
 use Illuminate\Http\Request;
-use Laravel\Passport\RefreshToken;
-use Laravel\Passport\Token;
-use Symfony\Component\Console\Input\Input;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController
@@ -41,9 +33,9 @@ class UserController
     {
         $this->userService->allows('edit', 'users');
         $email = $request->input('email');
-        if (User::where('email', $email)->exists()) {
-            return response()->json(['message' => 'User already exists'], Response::HTTP_CONFLICT);
-        }
+        // if (User::where('email', $email)->exists()) {
+        //     return response()->json(['message' => 'User already exists'], Response::HTTP_CONFLICT);
+        // }
         $data = $request->only(['first_name', 'last_name', 'email']) + [
             'password' => 123456,
         ];
@@ -58,9 +50,9 @@ class UserController
     public function update(UserUpdateRequest $request, $id)
     {
         $this->userService->allows('edit', 'users');
-        $userID = User::findOrFail($id);
+        // $userID = User::findOrFail($id);
         $data = $request->only(['first_name', 'last_name', 'email']);
-        $user = $this->userService->update($userID,$data);
+        $user = $this->userService->update($id,$data);
         UserRole::where('user_id', $user->id)->update([
             'role_id' => $request->input('role_id'),
         ]);
@@ -69,8 +61,8 @@ class UserController
     public function destroy($id)
     {
         $this->userService->allows('edit', 'users');
-        $user =User::findOrFail($id);
-        $this->userService->delete($user);
+        // $user =User::findOrFail($id);
+        $this->userService->delete($id);
         return response('Deleted Successfully', Response::HTTP_NO_CONTENT);
     }
 }

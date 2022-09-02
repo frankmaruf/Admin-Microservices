@@ -36,7 +36,6 @@ Route::group([
         AuthController::class,
         'updateInfo'
     ]);
-    Route::apiResource('users',UserController::class);
     Route::get('admin', [
         AuthController::class,
         'authenticated'
@@ -54,7 +53,7 @@ Route::group([
         'logout'
     ]);
 }));
-
+Route::apiResource('users',UserController::class);
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });

@@ -4,16 +4,18 @@ namespace App\Http\Controllers\Influencer;
 
 use App\Models\Links;
 use App\Models\Order;
-use App\Models\User;
-use Cache;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redis;
+use App\Services\UserService;
 
 class InfluencerStatsController
 {
-    public function index(Request $request)
+    private $userService;
+    public function __construct(UserService $userService)
     {
-        $user = $request->user();
+        $this->userService = $userService;
+    }
+    public function index()
+    {
+        $user = $this->userService->getUser();
         $links = Links::where('user_id', $user->id)->get();
         return $links->map(function (Links $link) {
             $orders = Order::where('link', $link->link)->where("completed", 1)->get();
@@ -24,15 +26,6 @@ class InfluencerStatsController
                     return $order->influencer_total;
                 })
             ];
-            // return [
-            //     'id' => $link->id,
-            //     'link' => $link->link,
-            //     'clicks' => $link->clicks,
-            //     'views' => $link->views,
-            //     'revenue' => $link->revenue,
-            //     'created_at' => $link->created_at,
-            //     'updated_at' => $link->updated_at,
-            // ];
         });
     }
     // public function rankings(){
@@ -40,8 +33,11 @@ class InfluencerStatsController
         
     // }
     public function rankings(){
-        $users = User::where('is_influencer', 1)->get();
-        $rankings = $users->map(function(User $user){
+        $users = collect($this->userService->all(-1));
+        $users = $users->filter(function ($user){
+            return $user->is_influencer;
+        });
+        $rankings = $users->map(function($user){
             $orders = Order::where('user_id',$user->id)->where("completed",1)->get();
             return [
                 'name' => $user->full_name,

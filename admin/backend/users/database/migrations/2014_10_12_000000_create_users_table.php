@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->timestamps();
-            $table->boolean('is_influencer')->default(false);
+            $table->tinyInteger('is_influencer')->default(0);
         });
     }
 

@@ -14,7 +14,7 @@ class AddIsInfluencerColumnToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('is_influencer')->default(false);
+            $table->tinyInteger('is_influencer')->default(0);
         });
     }
 

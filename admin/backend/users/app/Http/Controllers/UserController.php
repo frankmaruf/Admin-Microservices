@@ -9,8 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        if (-1 === (int) $request->input('page')){
+            return User::all();
+        }
         return PaginatedResource::collection(User::paginate());
     }
     public function show($id){
