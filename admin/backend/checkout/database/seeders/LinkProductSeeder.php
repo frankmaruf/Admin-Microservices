@@ -17,7 +17,7 @@ class LinkProductSeeder extends Seeder
     {
         $linkProducts = DB::connection('old_mysql')->table('link_products')->get();
         foreach ($linkProducts as $linkProduct){
-            LinkProducts::created([
+            LinkProducts::create([
                 'id' => $linkProduct->id,
                 'links_id' => $linkProduct->links_id,
                 'product_id' => $linkProduct->product_id,

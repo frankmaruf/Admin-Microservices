@@ -17,7 +17,7 @@ class LinkSeeder extends Seeder
     {
         $links = DB::connection('old_mysql')->table('links')->get();
         foreach ($links as $link){
-            Links::created([
+            Links::create([
                 'id' => $link->id,
                 'link' => $link->link,
                 'user_id' => $link->user_id,

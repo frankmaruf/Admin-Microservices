@@ -11,10 +11,12 @@
         "php": "^7.3",
         "doctrine/dbal": "^3.4",
         "fideloper/proxy": "^4.2",
+        "frankmaruf/common": "^0.0.3",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.0",
-        "laravel/tinker": "^2.7"
+        "laravel/tinker": "^2.7",
+        "vladimir-yuldashev/laravel-queue-rabbitmq": "^11.3"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.12",

@@ -33,9 +33,6 @@ class UserController
     {
         $this->userService->allows('edit', 'users');
         $email = $request->input('email');
-        // if (User::where('email', $email)->exists()) {
-        //     return response()->json(['message' => 'User already exists'], Response::HTTP_CONFLICT);
-        // }
         $data = $request->only(['first_name', 'last_name', 'email']) + [
             'password' => 123456,
         ];
@@ -50,7 +47,6 @@ class UserController
     public function update(UserUpdateRequest $request, $id)
     {
         $this->userService->allows('edit', 'users');
-        // $userID = User::findOrFail($id);
         $data = $request->only(['first_name', 'last_name', 'email']);
         $user = $this->userService->update($id,$data);
         UserRole::where('user_id', $user->id)->update([
@@ -61,7 +57,6 @@ class UserController
     public function destroy($id)
     {
         $this->userService->allows('edit', 'users');
-        // $user =User::findOrFail($id);
         $this->userService->delete($id);
         return response('Deleted Successfully', Response::HTTP_NO_CONTENT);
     }

@@ -116,27 +116,3 @@ Route::prefix('influencer')->group(function () {
             ]);
         });
 });
-
-
-
-// Checkout Routes
-Route::group([
-    'prefix' => 'checkout',
-], (function () {
-    Route::get("/links/{link}", [
-        CheckoutLinkController::class,
-        'show'
-    ]);
-    Route::post('orders', [
-        CheckoutOrderController::class,
-        'store'
-    ]);
-    // Route::post('orders/{order}/complete', [
-    //     CheckoutOrderController::class,
-    //     'complete'
-    // ]);
-    Route::post('orders/confirm', [
-        CheckoutOrderController::class,
-        'confirm'
-    ]);
-}));

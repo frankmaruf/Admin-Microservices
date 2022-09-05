@@ -17,7 +17,7 @@ class OrderItemsSeeder extends Seeder
     {
         $orderItems = DB::connection('old_mysql')->table('order_items')->get();
         foreach ($orderItems as $orderItem){
-            OrderItem::created([
+            OrderItem::create([
                 'id' => $orderItem->id,
                 'order_id' => $orderItem->order_id,
                 'product_id' => $orderItem->product_id,

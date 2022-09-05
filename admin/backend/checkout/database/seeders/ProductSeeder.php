@@ -17,7 +17,7 @@ class ProductSeeder extends Seeder
     {
         $products = DB::connection('old_mysql')->table('products')->get();
         foreach ($products as $product){
-            Product::created([
+            Product::create([
                 'id' => $product->id,
                 'name' => $product->name,
                 'description' => $product->description,

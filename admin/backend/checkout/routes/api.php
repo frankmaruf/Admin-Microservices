@@ -14,6 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+    Route::get("/links/{link}", [
+        CheckoutLinkController::class,
+        'show'
+    ]);
+    Route::post('orders', [
+        CheckoutOrderController::class,
+        'store'
+    ]);
+    // Route::post('orders/{order}/complete', [
+    //     CheckoutOrderController::class,
+    //     'complete'
+    // ]);
+    Route::post('orders/confirm', [
+        CheckoutOrderController::class,
+        'confirm'
+    ]);

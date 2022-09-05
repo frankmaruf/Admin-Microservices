@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\RoleUpdateAndCreateRequest;
 use App\Http\Resources\RoleResource;
 use App\Models\Role;
+use App\Services\UserService;
 use DB;
 use Gate;
 use Illuminate\Http\Request;
@@ -12,14 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RoleController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private $userService;
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
     public function index()
     {
-        Gate::authorize('view', 'users');
+        $this->userService->allows('view', 'users');
         return RoleResource::collection(Role::all());
     }
 
