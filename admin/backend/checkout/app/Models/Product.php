@@ -33,6 +33,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Product extends Model
 {
-    protected $fillable = ['name', 'description', 'image', 'price', 'stock', 'status'];
+    protected $guarded = [];
     use HasFactory;
 }

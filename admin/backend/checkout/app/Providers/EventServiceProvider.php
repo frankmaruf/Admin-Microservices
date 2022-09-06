@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App;
-use App\Jobs\Checked;
 use App\Jobs\LinkCreated;
 use App\Jobs\ProductCreated;
 use App\Jobs\ProductDeleted;
@@ -19,5 +18,5 @@ class EventServiceProvider extends ServiceProvider
         App::bindMethod(ProductUpdated::class,'@handle',fn($job)=>$job->handle());
         App::bindMethod(ProductDeleted::class,'@handle',fn($job)=>$job->handle());
         App::bindMethod(LinkCreated::class,'@handle',fn($job)=>$job->handle());
-    }
+     }
 }

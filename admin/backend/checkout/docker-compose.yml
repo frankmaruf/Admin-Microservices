@@ -23,6 +23,15 @@ services:
       dockerfile: Dockerfile
     volumes:
       - .:/app
+    depends_on:
+      - checkout_db
+      - checkout
+    environment:
+      DB_HOST: checkout_db
+      DB_DATABASE: checkout
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      DB_PORT: 3306
     command: "php artisan queue:work"
 
   checkout_db:
