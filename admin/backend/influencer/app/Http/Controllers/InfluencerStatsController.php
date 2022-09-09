@@ -23,7 +23,7 @@ class InfluencerStatsController
                 'link' => $link->link,
                 'clicks' => $orders->count(),
                 'revenue' => $orders->sum(function (Order $order) {
-                    return $order->influencer_total;
+                    return $order->total;
                 })
             ];
         });
@@ -43,7 +43,7 @@ class InfluencerStatsController
                 'name' => $user->fullName(),
                 'revenue' => $orders->sum(function (Order $order) {
                     return number_format(
-                        $order->influencer_total,
+                        $order->total,
                         2,
                         '.',
                         ''

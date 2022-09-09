@@ -69,40 +69,18 @@ class CheckoutOrderController
                 "currency" => "USD",
                 "quantity" => $item["quantity"],
             ];
-            // $lineItems[] = [
-            //     "name" => $product->name,
-            //     "description" => $product->description,
-            //     "images" => [
-            //         $product->image
-            //     ],
-            //     "quantity" => $item["quantity"],
-            //     "unit_amount" => [
-            //         "value" => $product->price,
-            //         "currency_code" => "USD",
-            //     ],
-            // ];
         }
-        // $stripe = Stripe::make(env('STRIPE_SECRET'));
-        // $stripe = Stripe::make('sk_test_51L0f1aK58sSCMALZGYRkmBHaXUQ1QsJsVyC1CdIY0a4a0G2NVnj5FbSEkRih2mXII0JgVBus45kKDPUCEv2c2uVC00u3az6nzt');
-        // $source = $stripe->sources()->create([
-        //     'payment_method_types' => 'card',
-            // 'card' => [
-            //     'number' => $request->input("card_number"),
-            //     'exp_month' => $request->input("card_exp_month"),
-            //     'exp_year' => $request->input("card_exp_year"),
-            //     'cvc' => $request->input("card_cvc"),
-            // ],
-        //     "line_items" => $lineItems,
-        //     "success_url" => env("CHECKOUT_URL") . "/success?source_id={CHECKOUT_SESSION_ID}",
-        //     "cancel_url" => env("CHECKOUT_URL") . "/error?source_id={CHECKOUT_SESSION_ID}",
-        // ]);
-        // $order->payment_transaction_id = $source->id;
         $order->save();
         DB::commit();
         $data = $order->toArray();
         $data['admin_total'] = $order->admin_total;
         $data['influencer_total'] = $order->influencer_total;
-        OrderCompleted::dispatch($data);
+        $orderItems = [];
+        foreach ($order->orderItems as $item){
+            $orderItems[] = $item->toArray();
+        }
+        OrderCompleted::dispatch($data, $orderItems)->onQueue('influencer_queue');
+        OrderCompleted::dispatch($data, $orderItems)->onQueue('emails_queue');
         return $order;
     }
     public function confirm(Request $request)

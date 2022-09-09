@@ -13,15 +13,12 @@ class OrderCompleted implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public $data;
-    public function __construct($data)
+    public $orderData;
+    public $orderItemsData;
+    public function __construct($orderData, $orderItemsData)
     {
-        $this->data = $data;
+        $this->orderData = $orderData;
+        $this->orderItemsData = $orderItemsData;
     }
 
     /**

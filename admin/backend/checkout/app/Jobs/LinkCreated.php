@@ -21,15 +21,4 @@ class LinkCreated implements ShouldQueue
         $this->link = $link;
         $this->linkProducts = $linkProducts;
     }
-
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
-    public function handle()
-    {
-        Links::create($this->link);
-        LinkProducts::insert($this->linkProducts);
-    }
 }

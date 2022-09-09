@@ -14,37 +14,28 @@ class OrderCompleted implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public $data;
-    public function __construct($data)
+    public $orderData;
+    public $orderItemsData;
+    public function __construct($orderData, $orderItemsData)
     {
-        $this->data = $data;
+        $this->orderData = $orderData;
+        $this->orderItemsData = $orderItemsData;
     }
-
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
     public function handle()
     {
         Mail::send('influencer.admin',[
-            "id"=>$this->data["id"],
-            "payment_transaction_amount"=>$this->data["payment_transaction_amount"],
-            "payment_transaction_currency"=>$this->data["payment_transaction_currency"],
-            "admin_total"=>$this->data["admin_total"],
+            "id"=>$this->orderData["id"],
+            "payment_transaction_amount"=>$this->orderData["payment_transaction_amount"],
+            "payment_transaction_currency"=>$this->orderData["payment_transaction_currency"],
+            "admin_total"=>$this->orderData["admin_total"],
         ],function(Message $message){
             $message->to("admin@admin.com")->subject("A New Order Has Been Placed");
         });
         Mail::send('influencer.influencer',[
-            "influencer_total"=>$this->data["influencer_total"],
-            "link"=>$this->data["link"],
+            "influencer_total"=>$this->orderData["influencer_total"],
+            "link"=>$this->orderData["link"],
         ],function(Message $message){
-            $message->to($this->data["influencer_email"])->subject("A New Order Has Been Placed");
+            $message->to($this->orderData["influencer_email"])->subject("A New Order Has Been Placed");
         });
     }
 }
