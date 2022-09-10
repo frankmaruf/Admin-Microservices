@@ -49,8 +49,6 @@ services:
       - 33070:3306
 
   redis:
-    networks:
-      - app
     image: redis:7.0.0-alpine
     restart: unless-stopped
     tty: true
