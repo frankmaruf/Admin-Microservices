@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2c0f8f9fd0fa3ad5179d9f162befa5ca",
+    "content-hash": "e4bcf4e0425871389faa5cdf64b032e9",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -550,6 +550,46 @@
                 "source": "https://github.com/fideloper/TrustedProxy/tree/4.4.2"
             },
             "time": "2022-02-09T13:33:34+00:00"
+        },
+        {
+            "name": "frankmaruf/common",
+            "version": "0.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/frankmaruf/Admin-Microservices-Common.git",
+                "reference": "c64b5456750c97abb1519bb53a68c0c74ad49d58"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/frankmaruf/Admin-Microservices-Common/zipball/c64b5456750c97abb1519bb53a68c0c74ad49d58",
+                "reference": "c64b5456750c97abb1519bb53a68c0c74ad49d58",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Frankmaruf\\Common\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "frankmaruf",
+                    "email": "thefrankmaruf@gmail.com"
+                }
+            ],
+            "description": "This is a package for the Microservices",
+            "support": {
+                "issues": "https://github.com/frankmaruf/Admin-Microservices-Common/issues",
+                "source": "https://github.com/frankmaruf/Admin-Microservices-Common/tree/0.0.3"
+            },
+            "time": "2022-09-05T18:23:31+00:00"
         },
         {
             "name": "fruitcake/laravel-cors",

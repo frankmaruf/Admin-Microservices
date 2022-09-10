@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InfluencerLinkController;
 use App\Http\Controllers\InfluencerProductController;
 use App\Http\Controllers\InfluencerStatsController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +21,10 @@ use Illuminate\Support\Facades\Route;
 Route::get("/products", [
     InfluencerProductController::class,
     'index'
+]);
+Route::get('/user', [
+    AuthController::class,
+    'user'
 ]);
 Route::group([
     'middleware' => 'scope.influencer'

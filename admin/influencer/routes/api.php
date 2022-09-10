@@ -7,11 +7,6 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Checkout\CheckoutLinkController;
-use App\Http\Controllers\Checkout\CheckoutOrderController;
-use App\Http\Controllers\Influencer\InfluencerLinkController;
-use App\Http\Controllers\Influencer\InfluencerProductController;
-use App\Http\Controllers\Influencer\InfluencerStatsController;
 use Illuminate\Support\Facades\Route;
 
 /*
