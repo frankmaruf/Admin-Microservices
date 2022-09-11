@@ -80,6 +80,7 @@ class CheckoutOrderController
             $orderItems[] = $item->toArray();
         }
         OrderCompleted::dispatch($data, $orderItems)->onQueue('influencer_queue');
+        OrderCompleted::dispatch($data, $orderItems)->onQueue('admin_queue');
         OrderCompleted::dispatch($data, $orderItems)->onQueue('emails_queue');
         return $order;
     }

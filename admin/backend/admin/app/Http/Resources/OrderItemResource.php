@@ -16,10 +16,10 @@ class OrderItemResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'product_id' => $this->product_id,
+            // 'product_id' => $this->product_id,
             'product_name' => $this->name,
-            'order_id' => $this->order_id,
-            'quantity' => (int) $this->quantity,
+            // 'order_id' => $this->order_id,
+            // 'quantity' => (int) $this->quantity,
             'price' => (float) $this->price,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
