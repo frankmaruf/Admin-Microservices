@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\UserService;
 use App\Http\Resources\ChartResource;
 use App\Models\Order;
 use Illuminate\Http\Request;
-use Microservices\UserService;
 
 class DashboardController
 {
     private $userService;
-    private function __construct(UserService $userService)
+    public function __construct(UserService $userService)
     {
         $this->userService = $userService;
     }
 
     public function chart()
     {
-        $this->userService->allows('edit', 'users');
+        $this->userService->allows('edit', 'products');
         $orders = Order::query()
             ->join('order_items', 'orders.id', '=', 'order_items.order_id')
             ->selectRaw("DATE_FORMAT(orders.created_at, '%Y-%m-%d') as date, sum(order_items.quantity*order_items.price) as sum")

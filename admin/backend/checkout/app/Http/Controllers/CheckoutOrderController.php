@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\UserService;
 use App\Jobs\OrderCompleted;
 use App\Models\Links;
 use App\Models\Order;
@@ -9,7 +10,6 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use DB;
 use Illuminate\Http\Request;
-use Microservices\UserService;
 
 class CheckoutOrderController
 {

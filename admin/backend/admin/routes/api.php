@@ -16,6 +16,7 @@ Route::get('/user', [
     'user'
 ]);
 
+
 Route::group([
     'middleware' => 'scope.admin',
 ], (function () {

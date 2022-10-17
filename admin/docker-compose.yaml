@@ -16,9 +16,9 @@ services:
     volumes:
       - ./react-frontend:/app/frontend
       # - "/react-frontend/node_modules"
-    depends_on:
-      - backend
-      - redis
+    # depends_on:
+      # - backend
+      # - redis
   influencer:
     networks:
       - app
@@ -38,9 +38,9 @@ services:
       - 8070:8070
     volumes:
       - ./influencer:/app/influencer
-    depends_on:
-      - idb
-      - redis
+    # depends_on:
+      # - idb
+      # - redis
   
   db:
     networks:

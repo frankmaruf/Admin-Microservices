@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\UserService;
 use App\Http\Requests\ImageUploadRequest;
-use Gate;
 use Illuminate\Http\Request;
-use Microservices\UserService;
 use Storage;
 
 class ImageController

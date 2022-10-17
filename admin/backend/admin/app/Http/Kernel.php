@@ -2,8 +2,8 @@
 
 namespace App\Http;
 
+use App\Common\AdminScope;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-use Microservices\AdminScope;
 
 class Kernel extends HttpKernel
 {

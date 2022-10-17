@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  react-influencer:
+    container_name: react_influencer
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      # - WDS_SOCKET_PORT=0
+    tty: true
+    ports:
+      - 3001:3000
+    volumes:
+      - ./:/app/frontend

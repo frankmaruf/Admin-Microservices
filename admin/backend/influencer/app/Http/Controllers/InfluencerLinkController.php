@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\UserService;
 use App\Http\Resources\LinkResource;
 // use App\Jobs\LinkCreated;
 use App\Models\LinkProducts;
@@ -10,7 +11,6 @@ use App\Models\Product;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Microservices\UserService;
 
 class InfluencerLinkController
 {

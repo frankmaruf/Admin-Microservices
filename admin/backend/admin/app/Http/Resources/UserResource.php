@@ -18,15 +18,14 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
         $userRole = UserRole::where('user_id',$this->id)->first();
-        $role = Role::find($userRole->role_id);
+        $role = Role::find($userRole->role_id)->first();
         return [
             'id' => $this->id,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
-            'name' => $this->name,
             'email' => $this->email,
             'role' => $role,
-            'permissions' => $role->permissions->plunk('name'),
+            'permissions' => $role->permissions->pluck('name'),
         ];
     }
 }

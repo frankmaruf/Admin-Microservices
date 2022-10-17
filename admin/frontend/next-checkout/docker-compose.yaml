@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  next-checkout:
+    container_name: checkout
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - WDS_SOCKET_PORT=0
+    tty: true
+    ports:
+      - 3002:3002
+    volumes:
+      - ./:/app/frontend

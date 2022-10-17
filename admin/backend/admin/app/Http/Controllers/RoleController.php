@@ -6,8 +6,7 @@ use App\Http\Requests\RoleUpdateAndCreateRequest;
 use App\Http\Resources\RoleResource;
 use App\Models\Role;
 use DB;
-use Microservices\UserService;
-use Symfony\Component\HttpFoundation\Response;
+use App\Common\UserService;
 
 class RoleController
 {
@@ -33,7 +32,7 @@ class RoleController
         $this->userService->allows('edit', 'users');
         $role = $request->only(['name']);
         if (Role::where('name', $role)->exists()) {
-            return response()->json(['message' => 'Role already exists'], Response::HTTP_CONFLICT);
+            return response()->json(['message' => 'Role already exists'],409);
         }
         $role = Role::create($role);
         if ($permissions = $request->input('permissions')) {
@@ -44,7 +43,7 @@ class RoleController
                 ]);
             }
         }
-        return response()->json(new RoleResource($role), Response::HTTP_CREATED);
+        return response()->json(new RoleResource($role), 201);
     }
 
     /**
@@ -81,7 +80,7 @@ class RoleController
                 ]);
             }
         }
-        return response()->json(new RoleResource($role), Response::HTTP_ACCEPTED);
+        return response()->json(new RoleResource($role), 202);
     }
 
     /**
@@ -95,6 +94,6 @@ class RoleController
         $this->userService->allows('edit', 'users');
         DB::table('role_permission')->where('role_id', $id)->delete();
         Role::findOrFail($id)->delete();
-        return response('Role Deleted Successfully', Response::HTTP_NO_CONTENT);
+        return response('Role Deleted Successfully', 204);
     }
 }

@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\UserService;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
-use Gate;
-use Illuminate\Http\Request;
-use Microservices\UserService;
 use Response;
 
 class OrderController

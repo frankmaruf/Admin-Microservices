@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  admin-frontend:
+    container_name: admin_frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      # - WDS_SOCKET_PORT=0
+    tty: true
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/app/frontend
+      # - "/react-frontend/node_modules"

@@ -20,14 +20,13 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
-            'name' => $this->name,
             'email' => $this->email,
             'revenue' => $this->revenue($this->id)
         ];
     }
     public function revenue($id){
         // $orders = Order::where('user_id',$id)->get();
-        $orders = Order::where('user_id',$id)->where('complete',1)->get();
+        $orders = Order::where('user_id',$id)->where('completed',1)->get();
         return $orders->sum(fn (Order $order) =>  $order->total);
     }
 }

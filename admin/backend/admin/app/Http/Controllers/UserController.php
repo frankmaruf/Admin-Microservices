@@ -7,9 +7,8 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Jobs\AdminAdded;
 use App\Models\UserRole;
-use App\Services\UserService;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use App\Common\UserService;
 
 class UserController
 {
@@ -42,7 +41,7 @@ class UserController
             'role_id' => $request->input('role_id'),
         ]);
         AdminAdded::dispatch($user->email)->onQueue('emails_queue');
-        return response()->json(new UserResource($user), Response::HTTP_CREATED);
+        return response()->json(new UserResource($user), 201);
     }
     public function update(UserUpdateRequest $request, $id)
     {
@@ -52,12 +51,12 @@ class UserController
         UserRole::where('user_id', $user->id)->update([
             'role_id' => $request->input('role_id'),
         ]);
-        return response()->json(new UserResource($user), Response::HTTP_ACCEPTED);
+        return response()->json(new UserResource($user), 202);
     }
     public function destroy($id)
     {
         $this->userService->allows('edit', 'users');
         $this->userService->delete($id);
-        return response('Deleted Successfully', Response::HTTP_NO_CONTENT);
+        return response('Deleted Successfully', 204);
     }
 }

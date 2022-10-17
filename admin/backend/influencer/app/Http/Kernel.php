@@ -2,8 +2,8 @@
 
 namespace App\Http;
 
+use App\Common\InfluencerScope;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-use Microservices\InfluencerScope;
 
 class Kernel extends HttpKernel
 {

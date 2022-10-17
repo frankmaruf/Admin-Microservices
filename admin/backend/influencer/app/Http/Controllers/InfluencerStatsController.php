@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\UserService;
 use App\Models\Links;
 use App\Models\Order;
-use Microservices\UserService;
 
 class InfluencerStatsController
 {
@@ -35,12 +35,13 @@ class InfluencerStatsController
     public function rankings(){
         $users = collect($this->userService->all(-1));
         $users = $users->filter(function ($user){
-            return $user->is_influencer;
+            return $user['is_influencer'];
         });
+        // print($users);
         $rankings = $users->map(function($user){
-            $orders = Order::where('user_id',$user->id)->where("completed",1)->get();
+            $orders = Order::where('user_id',$user['id'])->where("completed",1)->get();
             return [
-                'name' => $user->fullName(),
+                'name' => $user["first_name"] ,
                 'revenue' => $orders->sum(function (Order $order) {
                     return number_format(
                         $order->total,

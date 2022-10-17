@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\UserService;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
-use Microservices\UserService;
-use Symfony\Component\HttpFoundation\Response;
 
 
 class AuthController
@@ -23,6 +22,6 @@ class AuthController
         $token->delete();
         # forget cookie
         $cookie = \Cookie::forget('atkn');
-        return response()->json(['message' => 'Successfully logged out'], Response::HTTP_OK)->withCookie($cookie);
+        return response()->json(['message' => 'Successfully logged out'], 200)->withCookie($cookie);
     }
 }
